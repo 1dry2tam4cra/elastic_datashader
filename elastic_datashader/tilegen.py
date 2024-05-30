@@ -778,6 +778,8 @@ def generate_nonaggregated_tile(
             # now for the points as well
             points_agg = None
 
+            points_color_key = None
+
             if df_points is not None:
                 df_points["c"] = df_points["c"].astype("category")
                 # prevent memory explosion in datashader _colorize
