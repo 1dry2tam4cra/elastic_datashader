@@ -35,13 +35,13 @@ def scan(search, use_scroll=False, size=10000):
     search = search.sort("_doc")
     if use_scroll:
         for hit in search.scan():
-            yield hit
+            yield from hit
     else:
         _search = search.params(size=size).extra(track_total_hits=False)
         while _search is not None:
             hit = None
             for hit in _search:
-                yield hit
+                yield from hit
             if hit is not None:
                 _search = search.extra(search_after=list(hit.meta.sort))
             else:
@@ -597,7 +597,7 @@ class ScanAggs:
 
         while response.aggregations.comp.buckets:
             for b in response.aggregations.comp.buckets:
-                yield b
+                yield from b
             if "after_key" in response.aggregations.comp:
                 after = response.aggregations.comp.after_key
             else:
